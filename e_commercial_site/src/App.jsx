@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './App.css'
 import Topbar from './components/Topbar'
@@ -7,21 +7,13 @@ import Bottombar from './components/Bottombar'
 import Dashboard from './components/Dashboard'
 import LiveOrderQueue from './components/LiveOrderQueue'
 import ConsolidationStation from './components/ConsolidationStation'
-import Auth from './components/Auth'
 
 function App() {
   const [orders, setOrders] = useState([])
   const [staff, setStaff] = useState([])
   const [products, setProducts] = useState([])
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
-    // Check if user is authenticated
-    const user = localStorage.getItem('currentUser')
-    if (user) {
-      setIsAuthenticated(true)
-    }
-
     // Initialize staff data
     setStaff([
       { id: 1, name: 'Chandler', groups: ['Veg Pizza', 'Burger'] },
@@ -53,65 +45,39 @@ function App() {
     )
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('currentUser')
-    setIsAuthenticated(false)
-  }
-
-  const ProtectedRoute = ({ children }) => {
-    if (!isAuthenticated) {
-      return <Navigate to="/auth" replace />
-    }
-    return children
-  }
-
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Auth setIsAuthenticated={setIsAuthenticated} />} />
-        {isAuthenticated ? (
-          <Route path="/dashboard/*" element={
-            <div className="app">
-              <Topbar onLogout={handleLogout} />
-              <div className="container">
-                <Sidebar />
-                <Routes>
-                  <Route path="/" element={
-                    <ProtectedRoute>
-                      <Dashboard 
-                        orders={orders}
-                        staff={staff}
-                        products={products}
-                        onNewOrder={handleNewOrder}
-                      />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/queue" element={
-                    <ProtectedRoute>
-                      <LiveOrderQueue 
-                        orders={orders}
-                        staff={staff}
-                        products={products}
-                        onStatusUpdate={updateOrderStatus}
-                      />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/consolidation" element={
-                    <ProtectedRoute>
-                      <ConsolidationStation 
-                        orders={orders}
-                        onStatusUpdate={updateOrderStatus}
-                      />
-                    </ProtectedRoute>
-                  } />
-                </Routes>
-              </div>
-              <Bottombar />
-            </div>
-          } />
-        ) : null}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <div className="app">
+        <Topbar />
+        <div className="container">
+          <Sidebar />
+          <Routes>
+            <Route path="/" element={
+              <Dashboard 
+                orders={orders}
+                staff={staff}
+                products={products}
+                onNewOrder={handleNewOrder}
+              />
+            } />
+            <Route path="/queue" element={
+              <LiveOrderQueue 
+                orders={orders}
+                staff={staff}
+                products={products}
+                onStatusUpdate={updateOrderStatus}
+              />
+            } />
+            <Route path="/consolidation" element={
+              <ConsolidationStation 
+                orders={orders}
+                onStatusUpdate={updateOrderStatus}
+              />
+            } />
+          </Routes>
+        </div>
+        <Bottombar />
+      </div>
     </Router>
   )
 }

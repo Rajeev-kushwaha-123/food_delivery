@@ -1,8 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material'
 import { Link } from 'react-router-dom'
-import LogoutIcon from '@mui/icons-material/Logout'
 
-const Topbar = ({ onLogout }) => {
+const Topbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -18,13 +17,6 @@ const Topbar = ({ onLogout }) => {
           </Button>
           <Button color="inherit" component={Link} to="/consolidation">
             Consolidation
-          </Button>
-          <Button
-            color="inherit"
-            onClick={onLogout}
-            startIcon={<LogoutIcon />}
-          >
-            Logout
           </Button>
         </Box>
       </Toolbar>

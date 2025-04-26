@@ -59,8 +59,8 @@ const Auth = ({ setIsAuthenticated }) => {
         return
       }
       // Mock authentication - in a real app, this would call an API
-      const storedUser = localStorage.getItem('users')
-      const users = storedUser ? JSON.parse(storedUser) : []
+      const storedUsers = localStorage.getItem('users')
+      const users = storedUsers ? JSON.parse(storedUsers) : []
       const user = users.find(u => u.username === formData.username && u.password === formData.password)
       
       if (user) {
@@ -70,7 +70,7 @@ const Auth = ({ setIsAuthenticated }) => {
           isAuthenticated: true
         }))
         setIsAuthenticated(true)
-        navigate('/')
+        navigate('/dashboard')
       } else {
         setError('Invalid username or password')
       }
@@ -85,8 +85,8 @@ const Auth = ({ setIsAuthenticated }) => {
       }
 
       // Mock user registration - in a real app, this would call an API
-      const storedUser = localStorage.getItem('users')
-      const users = storedUser ? JSON.parse(storedUser) : []
+      const storedUsers = localStorage.getItem('users')
+      const users = storedUsers ? JSON.parse(storedUsers) : []
       
       if (users.some(u => u.username === formData.username)) {
         setError('Username already exists')
@@ -107,7 +107,7 @@ const Auth = ({ setIsAuthenticated }) => {
         isAuthenticated: true
       }))
       setIsAuthenticated(true)
-      navigate('/')
+      navigate('/dashboard')
     }
   }
 
