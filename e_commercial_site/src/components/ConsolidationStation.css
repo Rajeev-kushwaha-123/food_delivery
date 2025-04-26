@@ -1,0 +1,40 @@
+.consolidation-container {
+  padding: 20px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.order-card {
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-total {
+  font-weight: bold;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 2px solid #eee;
+}
+
+@media (max-width: 768px) {
+  .consolidation-container {
+    padding: 10px;
+  }
+} 
